@@ -46,7 +46,7 @@ read beatpid <"/tmp/tempsudobeat-$(date +%Y-%m-%d)-$$.txt"
 # 以上是为了保持在安装过程中一直有sudo权限，以下才是 nvidia 显卡驱动安装代码的主体
 
 # 检测 是否是laptop 模式
-if [ $1 == "laptop" ]; then
+if [[ -n "$1" && "$1" == "laptop" ]]; then
     echo "runing laptop mode"
 else
     echo "running normal mode"
@@ -77,7 +77,7 @@ sudo apt remove nvidia* -y
 sudo apt install nvidia-detect -y
 sudo apt install curl -y
 
-if [ $1 == "laptop" ]; then
+if [[ "$1" == "laptop" ]]; then
     sudo apt install nvidia-driver firmware-misc-nonfree nvidia-cuda-dev nvidia-cuda-toolkit nvidia-smi nvidia-settings nvidia-cuda-mps vulkan-utils -y
     # --------------------- only for Optimus two GPU laptop -------------------------
     # https://github.com/zty199/dde-dock-switch_graphics_card
@@ -110,7 +110,7 @@ EOL
 
     sudo dpkg -i ./dde-dock-graphics-plugin_1.8.1_amd64.deb
 
-    sudo apt --fix-broken install
+    sudo apt --fix-broken install -y
     # 装两遍因为第一遍可能因为缺少dependency装不上
     sudo dpkg -i ./dde-dock-graphics-plugin_1.8.1_amd64.deb
 
