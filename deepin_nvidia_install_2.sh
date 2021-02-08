@@ -55,16 +55,19 @@ fi
 # 定义黑名单的文件地址
 blacklistfile=/etc/modprobe.d/blacklist.conf
 # blacklistfile=test.txt
-# 定义apt source文件地址
-sourcelist=/etc/apt/sources.list
-# sourcelist=source.list
 
 # 把不兼容的开源nvidia驱动设置黑名单
 echo blacklist nouveau | sudo tee $blacklistfile
 echo options nouveau modeset=0 | sudo tee -a $blacklistfile
 
 # 把debian nvidia驱动的非稳定源写入apt源
-echo deb http://deb.debian.org/debian buster-backports main contrib non-free | sudo tee -a $sourcelist
+# 定义apt source文件地址
+sourcelist=/etc/apt/sources.list
+# sourcelist=source.list
+
+deb_source="deb http://deb.debian.org/debian buster-backports main contrib non-free"
+
+grep -Fxq "$deb_source" $sourcelist || echo $deb_source | sudo tee -a $sourcelist
 
 # 更新黑名单
 sudo update-initramfs -u
