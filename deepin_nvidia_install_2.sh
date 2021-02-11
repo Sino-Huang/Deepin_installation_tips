@@ -49,7 +49,20 @@ read beatpid <"/tmp/tempsudobeat-$(date +%Y-%m-%d)-$$.txt"
 if [[ -n "$1" && "$1" == "laptop" ]]; then
     echo "runing laptop mode"
 else
-    echo "running normal mode"
+    echo "what mode you want to run?"
+    echo "1:laptop,intel and nvidia gpu card"
+    echo "2:normal, just one nvidia card"
+    echo "(1/2)"
+    read input 
+    if [[ "$input" == "1" ]]; then
+        # set will change all $1 - $n
+        set "laptop"
+        echo laptop mode 
+        sleep 2
+    else
+        echo normal mode
+        sleep 2
+    fi
 fi
 
 # 定义黑名单的文件地址
@@ -67,7 +80,10 @@ sourcelist=/etc/apt/sources.list
 
 deb_source="deb http://deb.debian.org/debian buster-backports main contrib non-free"
 
-grep -Fxq "$deb_source" $sourcelist || echo $deb_source | sudo tee -a $sourcelist
+# not laptop mode, then add this
+if [[ -z "$1" ]]; then
+    grep -Fxq "$deb_source" $sourcelist || echo $deb_source | sudo tee -a $sourcelist
+fi
 
 # 更新黑名单
 sudo update-initramfs -u
