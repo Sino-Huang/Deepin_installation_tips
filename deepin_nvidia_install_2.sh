@@ -78,7 +78,8 @@ echo options nouveau modeset=0 | sudo tee -a $blacklistfile
 sourcelist=/etc/apt/sources.list
 # sourcelist=source.list
 
-deb_source="deb http://deb.debian.org/debian buster-backports main contrib non-free"
+# deb_source="deb http://deb.debian.org/debian buster-backports main contrib non-free"
+deb_source="deb https://mirrors.tuna.tsinghua.edu.cn/debian/ buster-backports main contrib non-free"
 
 # not laptop mode, then add this
 if [[ -z "$1" ]]; then
