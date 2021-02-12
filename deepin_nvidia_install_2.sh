@@ -7,6 +7,16 @@
 # 如果是laptop双显卡（intel和nvidia）， 则在terminal输入 bash ./deepin_nvidia_install_2.sh laptop
 # 如果是电脑（单显卡nvidia,且nvidia 显卡为10，20或30系），则直接 bash ./deepin_nvidia_install_2.sh
 
+# 查看是不是在tty下面跑的
+TTY=`tty`
+
+case $TTY in
+    "/dev/tty2" | "/dev/tty3" | "/dev/tty4" | "/dev/tty5" | "/dev/tty6") echo 'running in TTY'
+    ;;
+    *) echo -e "请重新进入TTY非图形化的界面，自动退出脚本\n"; exit
+    ;;
+esac
+
 
 
 # -------------------------------------------------------------------------------------------------------------
